@@ -1,0 +1,26 @@
+{
+  "redirects": [
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "phonalab.com"
+        }
+      ],
+      "destination": "https://www.phonalab.com",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "phonalab.com"
+        }
+      ],
+      "destination": "https://www.phonalab.com/:path*",
+      "permanent": true
+    }
+  ]
+}
