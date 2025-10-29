@@ -7,8 +7,8 @@
     <!-- Primary Meta Tags -->
     <title>Phonalab - Free Professional Voice Analysis Tools for Clinicians</title>
     <meta name="title" content="Phonalab - Free Professional Voice Analysis Tools for Clinicians">
-    <meta name="description" content="Free online voice analysis tools for speech-language pathologists. Automated acoustic analysis (F0, jitter, shimmer, HNR, CPP), pitch visualization, AI clinical interpretation, and instant PDF reports. No installation required.">
-    <meta name="keywords" content="voice analysis, acoustic analysis, speech pathology, voice disorders, F0 analysis, jitter shimmer, voice therapy, SLP tools, free voice analysis, phonation assessment, dysphonia evaluation, pitch range, transgender voice therapy">
+    <meta name="description" content="Free online voice analysis tools for speech-language pathologists. Automated acoustic analysis (F0, jitter, shimmer, HNR, CPP, AVQI, ABI), pitch visualization, AI clinical interpretation, and instant PDF reports. No installation required.">
+    <meta name="keywords" content="voice analysis, acoustic analysis, speech pathology, voice disorders, F0 analysis, jitter shimmer, voice therapy, SLP tools, free voice analysis, phonation assessment, dysphonia evaluation, pitch range, transgender voice therapy, AVQI, ABI, breathiness index">
     <meta name="author" content="Dr. Jorge C. Lucero">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://www.phonalab.com">
@@ -64,7 +64,9 @@
         "Fundamental frequency (F0) measurement",
         "Jitter and shimmer calculation",
         "Harmonics-to-noise ratio (HNR)",
-        "Cepstral peak prominence (CPP)",
+        "Smoothed cepstral peak prominence (CPPS)",
+        "AVQI - Acoustic Voice Quality Index",
+        "ABI - Acoustic Breathiness Index",
         "AI-powered clinical interpretation",
         "PDF report generation",
         "Pitch range visualization",
@@ -84,6 +86,7 @@
             --primary-dark: #4f46e5;
             --secondary: #10b981;
             --accent: #8b5cf6;
+            --orange: #f59e0b;
             --text: #1f2937;
             --text-light: #6b7280;
             --bg-light: #f9fafb;
@@ -111,6 +114,7 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
         .header-content {
@@ -126,24 +130,172 @@
             font-size: 24px;
             font-weight: bold;
             color: var(--primary);
+            text-decoration: none;
         }
 
         .nav-links {
             display: flex;
             gap: 2rem;
+            align-items: center;
         }
 
         .nav-links a {
             color: var(--text);
             text-decoration: none;
             transition: color 0.3s;
+            font-weight: 500;
         }
 
         .nav-links a:hover {
             color: var(--primary);
         }
 
-        /* Hero Section - Two Columns */
+        /* Dropdown Menu */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            color: var(--text);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        .dropdown-toggle:hover {
+            background: var(--bg-light);
+            color: var(--primary);
+        }
+
+        .dropdown-arrow {
+            font-size: 0.7rem;
+            transition: transform 0.3s;
+        }
+
+        .dropdown.active .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            min-width: 220px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s;
+            z-index: 1000;
+            margin-top: 0.5rem;
+        }
+
+        .dropdown.active .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1.25rem;
+            color: var(--text);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .dropdown-menu a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-menu a:hover {
+            background: var(--bg-light);
+            color: var(--primary);
+            padding-left: 1.5rem;
+        }
+
+        .dropdown-menu a:first-child {
+            border-radius: 8px 8px 0 0;
+        }
+
+        .dropdown-menu a:last-child {
+            border-radius: 0 0 8px 8px;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text);
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 0;
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            z-index: 999;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .mobile-menu.active {
+            max-height: 500px;
+        }
+
+        .mobile-menu nav {
+            padding: 1rem 0;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 0.75rem 40px;
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .mobile-menu a:hover {
+            background: var(--bg-light);
+            color: var(--primary);
+            padding-left: 50px;
+        }
+
+        .mobile-tools-section {
+            border-top: 1px solid var(--border);
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+        }
+
+        .mobile-tools-header {
+            padding: 0.5rem 40px;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Hero Section */
         .hero {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -208,7 +360,6 @@
 
         .hero-image {
             border-radius: 15px;
-            backdrop-filter: blur(10px);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -221,86 +372,10 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.2);
         }
 
-        /* Tools Available Section - NEW */
+        /* Tools Section */
         .tools-available {
-            padding: 60px 0;
-            background: var(--white);
-        }
-
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .tool-card {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            padding: 40px;
-            border-radius: 15px;
-            transition: transform 0.3s, box-shadow 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .tool-card:nth-child(2) {
-            background: linear-gradient(135deg, var(--accent) 0%, #7c3aed 100%);
-        }
-
-        .tool-card.coming-soon {
-            background: linear-gradient(135deg, var(--text-light) 0%, #4b5563 100%);
-            opacity: 0.7;
-        }
-
-        .tool-card:hover:not(.coming-soon) {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-        }
-
-        .tool-icon {
-            font-size: 48px;
-            margin-bottom: 20px;
-        }
-
-        .tool-card h3 {
-            font-size: 24px;
-            margin-bottom: 15px;
-            font-weight: 700;
-        }
-
-        .tool-card p {
-            font-size: 16px;
-            margin-bottom: 25px;
-            opacity: 0.95;
-            line-height: 1.6;
-        }
-
-        .tool-card .tool-link {
-            display: inline-block;
-            background: rgba(255,255,255,0.2);
-            color: white;
-            padding: 12px 30px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: background 0.3s;
-            backdrop-filter: blur(10px);
-        }
-
-        .tool-card .tool-link:hover {
-            background: rgba(255,255,255,0.3);
-        }
-
-        .tool-card.coming-soon .tool-link {
-            background: rgba(255,255,255,0.15);
-            cursor: default;
-        }
-
-        /* Features Section */
-        .features {
             padding: 80px 0;
-            background: var(--bg-light);
+            background: var(--white);
         }
 
         .section-header {
@@ -312,6 +387,7 @@
             font-size: 36px;
             margin-bottom: 15px;
             color: var(--text);
+            font-weight: 700;
         }
 
         .section-header p {
@@ -319,6 +395,151 @@
             color: var(--text-light);
             max-width: 700px;
             margin: 0 auto;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .tool-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 40px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            border-top: 4px solid var(--primary);
+            position: relative;
+        }
+
+        .tool-card:nth-child(2) {
+            border-top-color: var(--accent);
+        }
+
+        .tool-card:nth-child(3) {
+            border-top-color: var(--secondary);
+        }
+
+        .tool-card:nth-child(4) {
+            border-top-color: var(--text-light);
+        }
+
+        .tool-card:hover:not(.coming-soon) {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .tool-card.coming-soon {
+            opacity: 0.6;
+        }
+
+        .tool-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--secondary), #059669);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tool-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .tool-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .tool-card p {
+            font-size: 16px;
+            margin-bottom: 25px;
+            color: var(--text-light);
+            line-height: 1.6;
+            min-height: 90px;
+        }
+
+        .tool-features {
+            margin: 20px 0;
+            padding: 15px 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tool-features ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tool-features li {
+            padding: 4px 0;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .tool-features li::before {
+            content: "✓ ";
+            color: var(--secondary);
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .tool-link {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .tool-link:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .tool-card:nth-child(2) .tool-link {
+            background: var(--accent);
+        }
+
+        .tool-card:nth-child(2) .tool-link:hover {
+            background: #7c3aed;
+        }
+
+        .tool-card:nth-child(3) .tool-link {
+            background: var(--secondary);
+        }
+
+        .tool-card:nth-child(3) .tool-link:hover {
+            background: #059669;
+        }
+
+        .tool-card.coming-soon .tool-link {
+            background: var(--text-light);
+            cursor: default;
+        }
+
+        .tool-card.coming-soon .tool-link:hover {
+            transform: none;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            background: var(--bg-light);
         }
 
         .features-grid {
@@ -503,6 +724,14 @@
                 display: none;
             }
 
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
             .container {
                 padding: 0 20px;
             }
@@ -524,6 +753,12 @@
                 width: 100%;
                 text-align: center;
             }
+
+            .tool-badge {
+                position: static;
+                display: inline-block;
+                margin-bottom: 15px;
+            }
         }
     </style>
 </head>
@@ -531,14 +766,46 @@
     <!-- Header -->
     <header class="header">
         <div class="header-content">
-            <div class="logo">🔬 Phonalab</div>
-                <nav class="nav-links">
-                    <a href="https://www.phonalab.com">Home</a>
-                    <a href="https://analyzer.phonalab.com">Voice Analyzer</a>
-                    <a href="https://pitch.phonalab.com">Pitch Visualizer</a>
-                    <a href="#about">About</a>
-                    <a href="https://forms.gle/oZvWFGcHwr7VFNRAA" target="_blank">Feedback</a>
-                </nav>
+            <a href="https://www.phonalab.com" class="logo">🔬 Phonalab</a>
+            
+            <nav class="nav-links">
+                <a href="https://www.phonalab.com">Home</a>
+                
+                <div class="dropdown" id="toolsDropdown">
+                    <div class="dropdown-toggle">
+                        <span>Tools</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </div>
+                    <div class="dropdown-menu">
+                        <a href="https://analyzer.phonalab.com">🎤 Voice Analyzer</a>
+                        <a href="https://avqi.phonalab.com">📊 AVQI & ABI</a>
+                        <a href="https://pitch.phonalab.com">🎵 Pitch Visualizer</a>
+                    </div>
+                </div>
+                
+                <a href="#about">About</a>
+                <a href="https://forms.gle/oZvWFGcHwr7VFNRAA" target="_blank">Feedback</a>
+            </nav>
+            
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                ☰
+            </button>
+        </div>
+        
+        <div class="mobile-menu" id="mobileMenu">
+            <nav>
+                <a href="https://www.phonalab.com">Home</a>
+                
+                <div class="mobile-tools-section">
+                    <div class="mobile-tools-header">Tools</div>
+                    <a href="https://analyzer.phonalab.com">🎤 Voice Analyzer</a>
+                    <a href="https://avqi.phonalab.com">📊 AVQI & ABI</a>
+                    <a href="https://pitch.phonalab.com">🎵 Pitch Visualizer</a>
+                </div>
+                
+                <a href="#about">About</a>
+                <a href="https://forms.gle/oZvWFGcHwr7VFNRAA" target="_blank">Feedback</a>
+            </nav>
         </div>
     </header>
 
@@ -551,7 +818,7 @@
                     <p>Research-grade acoustic analysis that's completely free. No signup, no installation, works on any device.</p>
                     <div class="cta-buttons">
                         <a href="https://analyzer.phonalab.com" class="cta-button">🎤 Voice Analyzer</a>
-                        <a href="https://pitch.phonalab.com" class="cta-button secondary">🎵 Pitch Visualizer</a>
+                        <a href="https://avqi.phonalab.com" class="cta-button secondary">📊 AVQI/ABI</a>
                     </div>
                     <div class="hero-meta">
                         <strong>Built by Dr. Jorge Lucero</strong><br>
@@ -565,32 +832,80 @@
         </div>
     </section>
 
-    <!-- Tools Available Section - NEW -->
+    <!-- Tools Available Section -->
     <section class="tools-available">
         <div class="container">
             <div class="section-header">
-                <h2>Available Tools</h2>
-                <p>All tools are completely free, require no signup, and work on any device</p>
+                <h2>Professional Voice Analysis Tools</h2>
+                <p>All tools are completely free, require no signup, and work on any device. Built on validated research protocols.</p>
             </div>
             <div class="tools-grid">
                 <div class="tool-card">
                     <div class="tool-icon">🎤</div>
                     <h3>Quick Voice Analyzer</h3>
-                    <p>Upload an audio file and get instant measurements: F0, jitter, shimmer, HNR, and CPP. With AI-powered clinical interpretation and downloadable PDF reports.</p>
+                    <p>Upload a sustained vowel and get instant acoustic measurements with AI-powered clinical interpretation and downloadable PDF reports.</p>
+                    
+                    <div class="tool-features">
+                        <ul>
+                            <li>F0, Jitter, Shimmer, HNR, CPPS</li>
+                            <li>AI clinical interpretation</li>
+                            <li>Instant PDF reports</li>
+                            <li>Works with any recording device</li>
+                        </ul>
+                    </div>
+                    
                     <a href="https://analyzer.phonalab.com" class="tool-link">Try it now →</a>
                 </div>
                 
                 <div class="tool-card">
                     <div class="tool-icon">🎵</div>
                     <h3>Pitch Range Visualizer</h3>
-                    <p>Record or upload voice samples to see pitch range on a musical scale. Compare to age/gender norms. Perfect for transgender voice therapy and pitch work.</p>
+                    <p>Visualize pitch range on musical scale with gender norm comparisons. Perfect for transgender voice therapy and pitch work.</p>
+                    
+                    <div class="tool-features">
+                        <ul>
+                            <li>Musical scale visualization</li>
+                            <li>Gender norm comparisons</li>
+                            <li>Progress tracking charts</li>
+                            <li>Pitch contour over time</li>
+                        </ul>
+                    </div>
+                    
                     <a href="https://pitch.phonalab.com" class="tool-link">Try it now →</a>
+                </div>
+                
+                <div class="tool-card">
+                    <span class="tool-badge">✨ New</span>
+                    <div class="tool-icon">📊</div>
+                    <h3>AVQI & ABI Analyzer</h3>
+                    <p>Web-based AVQI and ABI calculator. Multiparametric analysis validated for Brazilian Portuguese.</p>
+                    
+                    <div class="tool-features">
+                        <ul>
+                            <li>AVQI: Overall dysphonia severity</li>
+                            <li>ABI: Breathiness quantification</li>
+                            <li>Validated protocol (counting 1-11)</li>
+                            <li>6 + 9 acoustic parameters</li>
+                        </ul>
+                    </div>
+                    
+                    <a href="https://avqi.phonalab.com" class="tool-link">Try it now →</a>
                 </div>
                 
                 <div class="tool-card coming-soon">
                     <div class="tool-icon">⏳</div>
                     <h3>Coming Soon</h3>
-                    <p>Voice Progress Tracker, Sustained Vowel Analyzer, and Report Generator. Vote for what you'd like to see next!</p>
+                    <p>Voice Progress Tracker with multi-session comparisons, advanced reporting features, and patient portal access.</p>
+                    
+                    <div class="tool-features">
+                        <ul>
+                            <li>Multi-session tracking</li>
+                            <li>Trend analysis</li>
+                            <li>Patient portal</li>
+                            <li>Custom report templates</li>
+                        </ul>
+                    </div>
+                    
                     <a href="https://forms.gle/oZvWFGcHwr7VFNRAA" class="tool-link">Request features →</a>
                 </div>
             </div>
@@ -607,33 +922,33 @@
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">📊</div>
-                    <h3 class="feature-title">Automated Acoustic Analysis</h3>
-                    <p>Get F0, jitter, shimmer, HNR, and CPP measurements instantly. No manual calculations or complicated software needed.</p>
+                    <h3 class="feature-title">Validated Multiparametric Analysis</h3>
+                    <p>AVQI and ABI validated for Brazilian Portuguese by Englert et al. (2021) with 150 subjects. Research-backed cutoff points and diagnostic accuracy.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🎵</div>
-                    <h3 class="feature-title">Musical Pitch Visualization</h3>
-                    <p>See pitch range mapped to musical notes with comparisons to normative ranges. Ideal for gender-affirming voice therapy and singing voice assessment.</p>
+                    <h3 class="feature-title">Gender-Affirming Voice Support</h3>
+                    <p>Pitch visualization with male, female, and androgynous ranges. Perfect for transgender voice therapy with progress tracking.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🤖</div>
                     <h3 class="feature-title">AI Clinical Interpretation</h3>
-                    <p>Receive intelligent insights about acoustic findings, with flagged abnormalities and evidence-based clinical suggestions.</p>
+                    <p>Intelligent insights about acoustic findings with flagged abnormalities and evidence-based clinical suggestions from Claude AI.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">📱</div>
                     <h3 class="feature-title">Works With Any Recording</h3>
-                    <p>Upload recordings from any device - professional equipment, smartphones, or tablets. Supports WAV, MP3, and M4A formats.</p>
+                    <p>Upload recordings from professional equipment, smartphones, or tablets. Supports WAV, MP3, and M4A formats up to 50MB.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">📄</div>
-                    <h3 class="feature-title">Professional Reports</h3>
-                    <p>Generate PDF reports instantly. Perfect for documentation, insurance, and sharing with referring physicians.</p>
+                    <h3 class="feature-title">Professional PDF Reports</h3>
+                    <p>Generate comprehensive PDF reports instantly. Perfect for documentation, insurance reimbursement, and sharing with physicians.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🎁</div>
-                    <h3 class="feature-title">Completely Free</h3>
-                    <p>No hidden costs, no premium tiers, no subscriptions. Built by researchers for the clinical community.</p>
+                    <h3 class="feature-title">Completely Free Forever</h3>
+                    <p>No hidden costs, no premium tiers, no subscriptions. Built by researchers for the clinical community. Always will be free.</p>
                 </div>
             </div>
         </div>
@@ -653,8 +968,9 @@
                     </p>
                     <p>
                         These tools represent years of research in vocal fold dynamics, acoustic analysis, and voice pathology. 
-                        The algorithms are based on established methods used in voice science laboratories worldwide, 
-                        now packaged in an easy-to-use web interface.
+                        The algorithms are based on validated protocols from peer-reviewed research, including the AVQI and ABI 
+                        validation studies for Brazilian Portuguese (Englert et al., 2021). The tools use the same methods 
+                        employed in voice science laboratories worldwide, now packaged in an easy-to-use web interface.
                     </p>
                     <p>
                         They're free because I believe that better assessment tools lead to better patient outcomes. 
@@ -668,7 +984,7 @@
                     <ul>
                         <li>Professor of Computer Science, University of Brasília (UnB)</li>
                         <li>Ph.D. in Engineering, Shizuoka University, Japan</li>
-                        <li>50+ peer-reviewed publications on voice and speech production</li>
+                        <li>50+ peer-reviewed publications on voice and speech</li>
                         <li>Creator of SimuVox - physics-based voice simulator</li>
                         <li>Developer of Phonalab Voice Analysis Tools</li>
                         <li>CNPq Research Fellow in Biomedical Engineering</li>
@@ -709,7 +1025,43 @@
             </p>
         </div>
     </footer>
+    
     <!-- Vercel Analytics -->
     <script defer src="/_vercel/insights/script.js"></script>
+    
+    <script>
+        // Dropdown toggle for desktop
+        const toolsDropdown = document.getElementById('toolsDropdown');
+        const dropdownToggle = toolsDropdown.querySelector('.dropdown-toggle');
+        
+        dropdownToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toolsDropdown.classList.toggle('active');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!toolsDropdown.contains(e.target)) {
+                toolsDropdown.classList.remove('active');
+            }
+        });
+        
+        // Mobile menu toggle
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        mobileMenuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            mobileMenuToggle.textContent = mobileMenu.classList.contains('active') ? '✕' : '☰';
+        });
+        
+        // Close mobile menu when clicking a link
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                mobileMenuToggle.textContent = '☰';
+            });
+        });
+    </script>
 </body>
 </html>
