@@ -89,7 +89,7 @@
       ]
     },
     {
-      "source": "/og-*.png",
+      "source": "/(.*\\.png)",
       "headers": [
         {
           "key": "Cache-Control",
@@ -98,16 +98,7 @@
       ]
     },
     {
-      "source": "/twitter-*.png",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/blog/**/*.html",
+      "source": "/blog/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
@@ -116,7 +107,7 @@
       ]
     },
     {
-      "source": "/(.*).css",
+      "source": "/(.*\\.css)",
       "headers": [
         {
           "key": "Cache-Control",
@@ -125,7 +116,7 @@
       ]
     },
     {
-      "source": "/(.*).js",
+      "source": "/(.*\\.js)",
       "headers": [
         {
           "key": "Cache-Control",
