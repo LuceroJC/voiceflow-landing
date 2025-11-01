@@ -4,6 +4,10 @@
     {
       "src": "index.html",
       "use": "@vercel/static"
+    },
+    {
+      "src": "blog/**/*.html",
+      "use": "@vercel/static"
     }
   ],
   "redirects": [
@@ -30,10 +34,20 @@
       "permanent": true
     }
   ],
+  "cleanUrls": true,
+  "trailingSlash": false,
   "routes": [
     {
+      "src": "/blog/posts/([^/]+)",
+      "dest": "/blog/posts/$1.html"
+    },
+    {
+      "src": "/blog",
+      "dest": "/blog/index.html"
+    },
+    {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "/$1"
     }
   ],
   "headers": [
@@ -171,6 +185,15 @@
       ]
     },
     {
+      "source": "/blog/**/*.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, must-revalidate"
+        }
+      ]
+    },
+    {
       "source": "/(.*).css",
       "headers": [
         {
@@ -181,6 +204,24 @@
     },
     {
       "source": "/(.*).js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/og-blog.png",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/twitter-blog.png",
       "headers": [
         {
           "key": "Cache-Control",

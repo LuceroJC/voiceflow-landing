@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags -->
+    <title>Understanding CPP: The New Gold Standard in Voice Assessment | Phonalab</title>
+    <meta name="title" content="Understanding Cepstral Peak Prominence (CPP): A Clinician's Guide">
+    <meta name="description" content="Learn why ASHA now recommends CPP over jitter and shimmer for voice assessment. Understand what CPP measures, normal ranges, and when to use it in clinical practice.">
+    <meta name="keywords" content="CPP, cepstral peak prominence, voice analysis, dysphonia assessment, ASHA guidelines, acoustic analysis, voice therapy">
+    <meta name="author" content="Dr. Jorge C. Lucero">
+    <link rel="canonical" href="https://www.phonalab.com/blog/posts/understanding-cpp.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.phonalab.com/blog/posts/understanding-cpp.html">
+    <meta property="og:title" content="Understanding Cepstral Peak Prominence (CPP): A Clinician's Guide">
+    <meta property="og:description" content="Learn why ASHA now recommends CPP over jitter and shimmer for voice assessment.">
+    <meta property="og:image" content="https://www.phonalab.com/og-blog-cpp.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.phonalab.com/blog/posts/understanding-cpp.html">
+    <meta property="twitter:title" content="Understanding CPP: The New Gold Standard in Voice Assessment">
+    <meta property="twitter:description" content="Learn why ASHA now recommends CPP over jitter and shimmer for voice assessment.">
+     <meta property="twitter:image" content="https://www.phonalab.com/twitter-blog-cpp.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Understanding Cepstral Peak Prominence (CPP): A Clinician's Guide",
+      "description": "Learn why ASHA now recommends CPP over jitter and shimmer for voice assessment",
+      "image": "https://www.phonalab.com/blog-cpp-cover.png",
+      "datePublished": "2025-10-30",
+      "dateModified": "2025-10-30",
+      "author": {
+        "@type": "Person",
+        "name": "Dr. Jorge C. Lucero",
+        "jobTitle": "Professor of Computer Science",
+        "url": "https://lucerojc.github.io"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Phonalab",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.phonalab.com/logo.png"
+        }
+      }
+    }
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #10b981;
+            --accent: #8b5cf6;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --bg-light: #f9fafb;
+            --white: #ffffff;
+            --border: #e5e7eb;
+            --warning: #f59e0b;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--white);
+        }
+
+        /* Header - same as your main site */
+        .header {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+
+       /* Dropdown Menu */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            color: var(--text);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        .dropdown-toggle:hover {
+            background: var(--bg-light);
+            color: var(--primary);
+        }
+
+        .dropdown-arrow {
+            font-size: 0.7rem;
+            transition: transform 0.3s;
+        }
+
+        .dropdown.active .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            min-width: 220px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s;
+            z-index: 1000;
+            margin-top: 0.5rem;
+        }
+
+        .dropdown.active .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1.25rem;
+            color: var(--text);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .dropdown-menu a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-menu a:hover {
+            background: var(--bg-light);
+            color: var(--primary);
+            padding-left: 1.5rem;
+        }
+
+        .dropdown-menu a:first-child {
+            border-radius: 8px 8px 0 0;
+        }
+
+        .dropdown-menu a:last-child {
+            border-radius: 0 0 8px 8px;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text);
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 0;
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            z-index: 999;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .mobile-menu.active {
+            max-height: 500px;
+        }
+
+        .mobile-menu nav {
+            padding: 1rem 0;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 0.75rem 40px;
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .mobile-menu a:hover {
+            background: var(--bg-light);
+            color: var(--primary);
+            padding-left: 50px;
+        }
+
+        .mobile-tools-section {
+            border-top: 1px solid var(--border);
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+        }
+
+        .mobile-tools-header {
+            padding: 0.5rem 40px;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+
+        /* Blog Post Styles */
+        .blog-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        .breadcrumb {
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .post-header {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .post-header h1 {
+            font-size: 42px;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        .post-meta {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            font-size: 15px;
+            color: var(--text-light);
+        }
+
+        .post-meta time {
+            font-weight: 500;
+        }
+
+        .post-meta .author {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .reading-time {
+            color: var(--text-light);
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        /* Post Content */
+        .post-content {
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--text);
+        }
+
+        .post-content p {
+            margin-bottom: 24px;
+        }
+
+        .post-content h2 {
+            font-size: 32px;
+            margin-top: 50px;
+            margin-bottom: 20px;
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        .post-content h3 {
+            font-size: 24px;
+            margin-top: 40px;
+            margin-bottom: 15px;
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .post-content ul, .post-content ol {
+            margin-bottom: 24px;
+            padding-left: 30px;
+        }
+
+        .post-content li {
+            margin-bottom: 10px;
+        }
+
+        .post-content strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .post-content a {
+            color: var(--primary);
+            text-decoration: none;
+            border-bottom: 1px solid var(--primary);
+        }
+
+        .post-content a:hover {
+            color: var(--primary-dark);
+        }
+
+        /* Special Content Boxes */
+        .tldr-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 40px 0;
+        }
+.tldr-box strong {
+    color: white;
+}
+        .tldr-box h3 {
+            margin-top: 0;
+            color: white;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .tldr-box ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .tldr-box li {
+            margin-bottom: 8px;
+        }
+
+        .key-point {
+            background: var(--bg-light);
+            border-left: 4px solid var(--primary);
+            padding: 20px 25px;
+            margin: 30px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .key-point strong {
+            color: var(--primary);
+            display: block;
+            margin-bottom: 8px;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .warning-box {
+            background: #fff7ed;
+            border-left: 4px solid var(--warning);
+            padding: 20px 25px;
+            margin: 30px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .warning-box strong {
+            color: var(--warning);
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-table th {
+            background: var(--bg-light);
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .comparison-table tr:hover {
+            background: var(--bg-light);
+        }
+
+        .checkmark {
+            color: var(--secondary);
+            font-weight: bold;
+        }
+
+        .xmark {
+            color: #ef4444;
+            font-weight: bold;
+        }
+
+        /* CTA Box */
+        .cta-box {
+            background: linear-gradient(135deg, var(--secondary), #059669);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin: 50px 0;
+            text-align: center;
+        }
+
+        .cta-box h3 {
+            margin-top: 0;
+            color: white;
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .cta-box p {
+            font-size: 18px;
+            margin-bottom: 25px;
+            opacity: 0.95;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: var(--secondary);
+            padding: 15px 40px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Related Posts */
+        .related-posts {
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 2px solid var(--border);
+        }
+
+        .related-posts h3 {
+            font-size: 24px;
+            margin-bottom: 25px;
+            color: var(--text);
+        }
+
+        .related-post-card {
+            background: var(--bg-light);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            transition: transform 0.3s;
+        }
+
+        .related-post-card:hover {
+            transform: translateX(5px);
+        }
+
+        .related-post-card a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .related-post-card p {
+            margin: 8px 0 0 0;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .related-post-card.coming-soon {
+    opacity: 0.7;
+    position: relative;
+}
+
+.coming-soon-badge {
+    display: inline-block;
+    background: var(--warning);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-top: 8px;
+}
+
+.related-post-card.coming-soon a {
+    cursor: default;
+}
+
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            color: var(--text-light);
+            background: var(--white);
+            border-top: 1px solid var(--border);
+            margin-top: 80px;
+        }
+
+        footer p {
+            margin: 10px 0;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .blog-container {
+                padding: 40px 20px;
+            }
+
+            .header-content {
+                padding: 0 20px;
+            }
+
+            .post-header h1 {
+                font-size: 32px;
+            }
+
+            .post-content {
+                font-size: 16px;
+            }
+
+            .post-content h2 {
+                font-size: 26px;
+            }
+
+            .post-content h3 {
+                font-size: 20px;
+            }
+
+            .comparison-table {
+                font-size: 14px;
+            }
+
+            .comparison-table th,
+            .comparison-table td {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+     <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="https://www.phonalab.com" class="logo">🔬 Phonalab</a>
+            
+            <nav class="nav-links">
+                <a href="https://www.phonalab.com">Home</a>
+                
+                <div class="dropdown" id="toolsDropdown">
+                    <div class="dropdown-toggle">
+                        <span>Tools</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </div>
+                    <div class="dropdown-menu">
+                        <a href="https://analyzer.phonalab.com">🎤 Voice Analyzer</a>
+                        <a href="https://avqi.phonalab.com">📊 AVQI & ABI</a>
+                        <a href="https://pitch.phonalab.com">🎵 Pitch Visualizer</a>
+                    </div>
+                </div>
+                <a href="/blog">Blog</a> 
+                <a href="#about">About</a>
+                <a href="https://forms.gle/oZvWFGcHwr7VFNRAA" target="_blank">Feedback</a>
+            </nav>
+            
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                ☰
+            </button>
+        </div>
+        
+        <div class="mobile-menu" id="mobileMenu">
+            <nav>
+                <a href="https://www.phonalab.com">Home</a>
+                
+                <div class="mobile-tools-section">
+                    <div class="mobile-tools-header">Tools</div>
+                    <a href="https://analyzer.phonalab.com">🎤 Voice Analyzer</a>
+                    <a href="https://avqi.phonalab.com">📊 AVQI & ABI</a>
+                    <a href="https://pitch.phonalab.com">🎵 Pitch Visualizer</a>
+                </div>
+                        <a href="/blog">Blog</a> 
+                <a href="#about">About</a>
+                <a href="https://forms.gle/oZvWFGcHwr7VFNRAA" target="_blank">Feedback</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Blog Post -->
+    <article class="blog-container">
+        <div class="breadcrumb">
+    <a href="/">Home</a> / 
+    <a href="/blog">Blog</a> / 
+    Understanding CPP
+</div>
+
+        <header class="post-header">
+            <h1>Understanding Cepstral Peak Prominence (CPP): The New Gold Standard in Voice Assessment</h1>
+            
+            <div class="post-meta">
+                <time datetime="2025-10-30">October 30, 2025</time>
+                <span>•</span>
+                <div class="author">
+                    By <strong>Jorge C. Lucero</strong>
+                </div>
+            </div>
+            <div class="reading-time">📖 8 minute read</div>
+        </header>
+
+        <div class="post-content">
+            <!-- TL;DR Box -->
+            <div class="tldr-box">
+                <h3>🎯 Key Takeaways</h3>
+                <ul>
+                    <li><strong>ASHA now recommends CPP</strong> as the primary acoustic measure for dysphonia assessment, replacing jitter and shimmer</li>
+                    <li><strong>CPP works where traditional measures fail:</strong> severely dysphonic voices, continuous speech, no pitch tracking needed</li>
+                    <li><strong>Normal CPP values:</strong> >5-6 dB for healthy voice; <5 dB suggests dysphonia</li>
+                    <li><strong>Clinical advantage:</strong> More robust correlation with perceived dysphonia severity</li>
+                    <li><strong>You can calculate CPP instantly</strong> with our free analyzer tool</li>
+                </ul>
+            </div>
+
+            <p>
+                In recent years, Cepstral Peak Prominence (CPP) has emerged as the most robust acoustic measure we have for assessing voice quality. Yet many clinicians still reach for jitter and shimmer first—measures that often fail precisely when we need them most: with severely dysphonic voices.
+            </p>
+
+            <p>
+                If you were trained on traditional perturbation measures, you're not alone. Most speech-language pathology programs still emphasize jitter and shimmer. But the field has shifted, and understanding CPP is now essential for evidence-based voice assessment.
+            </p>
+
+            <p>
+                Let me explain what CPP actually measures, why it's become the new gold standard, and—most importantly—how to use it effectively in your clinical practice.
+            </p>
+
+            <h2>The Problem with Traditional Measures</h2>
+
+            <p>
+                For decades, <strong>jitter</strong> (cycle-to-cycle pitch variability) and <strong>shimmer</strong> (cycle-to-cycle amplitude variability) were the go-to acoustic measures. They made intuitive sense: a smooth, periodic voice signal should have minimal perturbation, while a rough or hoarse voice would show increased variability.
+            </p>
+
+            <p>
+                But there's a fundamental problem: <strong>both measures require accurate fundamental frequency (F0) tracking.</strong>
+            </p>
+
+            <div class="warning-box">
+                <strong>⚠️ The Catch-22 of Perturbation Measures:</strong>
+                <p>Jitter and shimmer work beautifully for mildly dysphonic voices—but fail catastrophically for severely dysphonic voices where you need objective measures most. When the voice becomes buried in noise (severe breathiness, roughness, or hoarseness), there isn't enough periodic information for the algorithm to identify individual vocal fold cycles.</p>
+            </div>
+
+            <p>
+                This creates a clinical nightmare: your most severe patients—those who most need quantifiable evidence of disorder—are the ones whose voices can't be reliably measured with traditional methods.
+            </p>
+
+            <p>
+                Additional limitations of jitter and shimmer:
+            </p>
+
+            <ul>
+                <li><strong>Valid only for sustained vowels:</strong> Can't assess voice quality during continuous speech, which is how patients actually communicate</li>
+                <li><strong>Weak correlation with perception:</strong> The numbers don't always match what clinicians hear perceptually</li>
+                <li><strong>High variability:</strong> Small changes in recording conditions or analysis settings can produce very different results</li>
+                <li><strong>Limited clinical utility:</strong> Knowing jitter is 2.5% vs. 1.5% doesn't directly guide treatment decisions</li>
+            </ul>
+
+            <h2>Enter Cepstral Peak Prominence (CPP)</h2>
+
+            <p>
+                CPP emerged from signal processing research as a more robust alternative. The American Speech-Language-Hearing Association (ASHA) now specifically recommends CPP as the primary acoustic measure for voice assessment, particularly for dysphonic voices.
+            </p>
+
+            <h3>What is CPP?</h3>
+
+<p>
+    Without getting too technical: CPP measures the prominence of harmonic structure in the voice signal relative to background noise. Think of it as quantifying how "clear" the harmonic peaks are in the voice spectrum.
+</p>
+
+<p>
+    <strong>Note:</strong> Modern voice analysis tools typically calculate <strong>CPPS</strong> (smoothed CPP), which averages measurements across time for more stable results. Throughout this article, "CPP" refers to cepstral-based measures generally, including CPPS.
+</p>
+
+            <div class="key-point">
+                <strong>Simple Analogy:</strong>
+                Imagine looking at a city skyline. In a healthy voice, the buildings (harmonics) stand tall and distinct above the horizon (noise floor). In a dysphonic voice, fog (noise) obscures the buildings. CPP measures how clearly you can see those buildings above the fog.
+            </div>
+
+            <p>
+                More technically, CPP is calculated from the <strong>cepstrum</strong> (a mathematical transformation of the voice spectrum). The cepstral peak represents the fundamental frequency, and its "prominence" reflects how much periodic vocal fold vibration stands out from aperiodic noise.
+            </p>
+
+            <h3>Why CPP Works Better</h3>
+
+            <p>
+                CPP has several crucial advantages over traditional measures:
+            </p>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Jitter/Shimmer</th>
+                        <th>CPP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Requires accurate pitch tracking</strong></td>
+                        <td><span class="checkmark">✓</span> Yes (fails for severe dysphonia)</td>
+                        <td><span class="xmark">✗</span> No (works even with severe dysphonia)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Valid for continuous speech</strong></td>
+                        <td><span class="xmark">✗</span> No (sustained vowels only)</td>
+                        <td><span class="checkmark">✓</span> Yes (connected speech is ideal)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Correlates with perceptual ratings</strong></td>
+                        <td>⚠️ Weak to moderate</td>
+                        <td><span class="checkmark">✓</span> Strong (r = 0.7-0.8)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sensitivity to recording conditions</strong></td>
+                        <td>⚠️ High</td>
+                        <td><span class="checkmark">✓</span> More robust</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Works across voice types</strong></td>
+                        <td><span class="xmark">✗</span> Struggles with breathy, rough voices</td>
+                        <td><span class="checkmark">✓</span> Reliable for all dysphonia types</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>Normal CPP Values and Clinical Interpretation</h2>
+
+            <p>
+                Unlike jitter and shimmer (where "normal" means <1% and <3-5% respectively), CPP is measured in decibels (dB). Here's what research tells us about typical values:
+            </p>
+
+            <h3>Normative Data</h3>
+
+            <ul>
+                <li><strong>Healthy voices:</strong> CPP typically >5-6 dB</li>
+                <li><strong>Mild dysphonia:</strong> 4-5 dB</li>
+                <li><strong>Moderate dysphonia:</strong> 3-4 dB</li>
+                <li><strong>Severe dysphonia:</strong> <3 dB</li>
+            </ul>
+
+            <div class="key-point">
+                <strong>Clinical Pearl:</strong>
+                CPP values are context-dependent. Connected speech typically yields slightly lower CPP values than sustained vowels. Always compare within the same task type and, ideally, use the same analysis software and settings across sessions.
+            </div>
+
+            <h3>What Affects CPP?</h3>
+
+            <p>
+                Several factors influence CPP measurements:
+            </p>
+
+            <ul>
+                <li><strong>Speech task:</strong> Continuous speech typically shows CPP 1-2 dB lower than sustained vowels</li>
+                <li><strong>Loudness (SPL):</strong> Louder voice generally increases CPP</li>
+                <li><strong>Pitch (F0):</strong> Higher pitches may show different CPP values</li>
+                <li><strong>Age and gender:</strong> Some studies show slight differences, but less dramatic than with jitter/shimmer</li>
+                <li><strong>Recording quality:</strong> While more robust than jitter/shimmer, poor recordings still affect CPP</li>
+            </ul>
+
+            <h2>When to Use CPP vs. Traditional Measures</h2>
+
+            <p>
+                So should you abandon jitter and shimmer entirely? Not necessarily—but you should understand when each measure is most appropriate.
+            </p>
+
+            <h3>Use CPP When:</h3>
+            <ul>
+                <li>Assessing moderate to severe dysphonia</li>
+                <li>You want to analyze continuous speech (more ecologically valid)</li>
+                <li>Working with breathy or rough voice qualities</li>
+                <li>Tracking treatment progress across time</li>
+                <li>Recording conditions aren't perfectly controlled (telehealth!)</li>
+                <li>You need a measure that correlates well with perceptual severity</li>
+            </ul>
+
+            <h3>Traditional Measures Still Have a Place:</h3>
+            <ul>
+                <li>Mild, periodic dysphonia where F0 tracking is reliable</li>
+                <li>Research protocols requiring historical comparison</li>
+                <li>Specific clinical questions about vocal fold vibration regularity</li>
+                <li>As supplementary measures alongside CPP (multiparametric approach)</li>
+            </ul>
+
+            <div class="key-point">
+                <strong>Best Practice Recommendation:</strong>
+                Use CPP as your primary acoustic measure, supplemented by traditional measures when appropriate. This gives you the best of both worlds: robustness when you need it, plus additional detail when the voice signal allows.
+            </div>
+
+            <h2>The Physiological Mystery: What Does CPP Actually Measure?</h2>
+
+            <p>
+                Here's where I need to be honest with you: <strong>we don't fully understand the physiological basis of CPP yet.</strong>
+            </p>
+
+            <p>
+                With jitter and shimmer, the connection to vocal fold vibration is intuitive—irregular oscillation = irregular acoustics. But CPP is more abstract. It reflects the overall "harmonicity" of the voice, but what specific aspects of vocal fold function contribute to this?
+            </p>
+
+            <p>
+                Current hypotheses suggest CPP reflects:
+            </p>
+            <ul>
+                <li>Glottal closure completeness</li>
+                <li>Regularity of mucosal wave propagation</li>
+                <li>Ratio of periodic to aperiodic energy (signal-to-noise)</li>
+                <li>Overall coordination of laryngeal and respiratory systems</li>
+            </ul>
+
+            <p>
+                This is an active area of research. What we know for certain is that CPP correlates strongly with perceptual voice quality ratings and clinical outcomes—even if the precise physiological mechanisms remain unclear.
+            </p>
+
+            <div class="warning-box">
+                <strong>⚠️ Clinical Implication:</strong>
+                <p>Because we don't fully understand the physiology, CPP improvements don't tell us exactly <em>which</em> physiological changes occurred. A patient might achieve better CPP through improved closure, reduced edema, or better respiratory support. This is why CPP should complement, not replace, perceptual assessment and laryngoscopy.</p>
+            </div>
+
+            <h2>Practical Tips for Using CPP in Clinical Practice</h2>
+
+            <h3>1. Standardize Your Recording Protocol</h3>
+            <p>
+                While CPP is more robust than traditional measures, consistency still matters:
+            </p>
+            <ul>
+                <li>Use the same microphone distance (ideally 10-15 cm)</li>
+                <li>Record in a quiet environment</li>
+                <li>Request comfortable, natural speaking volume</li>
+                <li>Choose one speech task and stick with it (I recommend connected speech: counting 1-10 or reading a standard passage)</li>
+            </ul>
+
+            <h3>2. Track Trends, Not Absolute Numbers</h3>
+            <p>
+                CPP is most valuable for documenting change over time. A patient's baseline CPP of 3.2 dB increasing to 4.8 dB after therapy is meaningful—even if both values technically fall in the "dysphonic" range.
+            </p>
+
+            <h3>3. Consider Multiparametric Analysis</h3>
+            <p>
+    No single measure tells the whole story. Modern approaches like the Acoustic Voice Quality Index (AVQI) combine CPP with other parameters for more comprehensive assessment. Our <a href="https://avqi.phonalab.com">AVQI tool</a> makes this easy.
+</p>
+
+            <h3>4. Educate Your Patients</h3>
+            <p>
+                Visual feedback is powerful. Showing patients their CPP improving over time can boost motivation and demonstrate the objective impact of therapy. Use simple language: "This number shows how clear your voice signal is. We want to see it increase as your voice improves."
+            </p>
+
+            <h2>Common Questions About CPP</h2>
+
+            <h3>Q: Can I calculate CPP with free software?</h3>
+            <p>
+                <strong>Yes!</strong> Praat (free) includes CPP calculation, though the interface isn't clinician-friendly. Commercial options like ADSV provide easier workflows but cost $1,000+. Our Phonalab analyzer gives you CPP (plus other measures) instantly with AI-powered interpretation—completely free.
+            </p>
+
+            <h3>Q: Is CPP valid for telehealth recordings?</h3>
+            <p>
+    Generally yes—CPP is more robust to recording variability than jitter/shimmer. However, ensure patients use reasonable recording equipment (modern smartphones are fine) and minimize background noise. Basic guidelines: use a quiet room, hold phone 6-8 inches from mouth, and avoid video call compression by recording directly to an audio file.
+</p>
+
+            <h3>Q: Should I report CPP to referring physicians?</h3>
+            <p>
+                Absolutely. Many ENTs are familiar with CPP from the literature, and those who aren't will appreciate objective data. Just include a brief interpretation: "CPP of 3.8 dB indicates moderate dysphonia; values >5-6 dB are typical for healthy voice."
+            </p>
+
+            <h3>Q: How does CPP relate to the Voice Handicap Index (VHI)?</h3>
+            <p>
+                Research shows moderate correlation (r = 0.4-0.6). CPP captures acoustic/physiological aspects of voice, while VHI reflects patient-perceived impact. Both are valuable—use them together for comprehensive assessment.
+            </p>
+
+            <h2>The Future of Voice Analysis: Where CPP Fits In</h2>
+
+            <p>
+                CPP represents a significant step forward, but it's not the end of the story. The field is moving toward:
+</p>
+
+<ul>
+            <li><strong>Multiparametric indices:</strong> Combining CPP with other measures (like AVQI, which uses 6 parameters including CPP) for more comprehensive assessment</li>
+            <li><strong>Machine learning approaches:</strong> AI models that can identify subtle acoustic patterns beyond what any single measure captures</li>
+            <li><strong>Continuous monitoring:</strong> Ambulatory voice monitoring throughout the day to assess real-world vocal behavior</li>
+            <li><strong>Voice as biomarker:</strong> Using acoustic measures like CPP to screen for neurological conditions (Parkinson's, dementia) beyond laryngeal pathology</li>
+        </ul>
+
+        <p>
+            CPP will remain central to these advances because of its robustness and strong correlation with perceptual quality. Understanding it now positions you for the future of evidence-based voice assessment.
+        </p>
+
+        <h2>Bottom Line: Why CPP Matters for Your Practice</h2>
+
+        <p>
+            Here's what you need to remember:
+        </p>
+
+        <ol>
+            <li><strong>CPP is now the recommended primary acoustic measure</strong> for dysphonia assessment (per ASHA guidelines)</li>
+            <li><strong>It works where traditional measures fail:</strong> moderate-to-severe dysphonia, continuous speech, variable recording conditions</li>
+            <li><strong>Normal values: >5-6 dB;</strong> lower values suggest increasing dysphonia severity</li>
+            <li><strong>Track trends over time</strong> rather than fixating on single values</li>
+            <li><strong>Use alongside perceptual assessment</strong> and laryngoscopy for comprehensive evaluation</li>
+            <li><strong>Perfect for telehealth</strong> due to robustness to recording variability</li>
+        </ol>
+
+        <p>
+            The shift from jitter/shimmer to CPP isn't just about adopting a new measure—it's about embracing more robust, clinically meaningful voice assessment that works when you need it most.
+        </p>
+
+        <!-- CTA Box -->
+    <div class="cta-box">
+    <h3>🎤 Calculate CPP on Your Patient Recordings</h3>
+    <p>Upload any voice recording and get instant CPP analysis with AI-powered clinical interpretation. No signup required, completely free.</p>
+    <a href="https://analyzer.phonalab.com" class="cta-button">Try Free Voice Analyzer →</a>
+    <p style="font-size: 14px; margin-top: 15px; opacity: 0.9;">
+        Includes CPP, F0, jitter, shimmer, HNR, and professional PDF reports
+    </p>
+</div>
+
+        <h2>Further Reading & References</h2>
+
+        <p>
+            If you want to dive deeper into the research behind CPP:
+        </p>
+
+        <ul>
+            <li>Maryn Y, Corthals P, Van Cauwenberge P, Roy N, De Bodt M. (2010). Toward improved ecological validity in the acoustic measurement of overall voice quality: combining continuous speech and sustained vowels. <em>Journal of Voice, 24</em>(5), 540-555.  DOI: <a href´"https://doi.org/10.1016/j.jvoice.2008.12.014" target="_blank">10.1016/j.jvoice.2008.12.014</a> </li>
+            <li>Awan SN, Roy N, Jetté ME, Meltzner GS, Hillman RE. (2010). Quantifying dysphonia severity using a spectral/cepstral-based acoustic index: comparisons with auditory-perceptual judgements from the CAPE-V. <em>Clinical Linguistics & Phonetics, 24</em>(9), 742-758.  DOI: <a href´"https://doi.org/10.3109/02699206.2010.492446" target="_blank">10.3109/02699206.2010.492446</a> </li>
+            <li>Heman-Ackah YD, Michael DD, Goding GS Jr. (2002). The relationship between cepstral peak prominence and selected parameters of dysphonia. <em>Journal of Voice, 16</em>(1), 20-27. DOI: <a href´"https://doi.org/10.1016/s0892-1997(02)00067-x" target="_blank">10.1016/s0892-1997(02)00067-x</a> </li>
+            <li>ASHA Practice Portal: Voice Disorders - <a href="https://www.asha.org/practice-portal/clinical-topics/voice-disorders/" target="_blank">Assessment and Treatment</a></li>
+        </ul>
+
+        <hr style="margin: 50px 0; border: none; border-top: 1px solid var(--border);">
+
+        <p style="font-style: italic; color: var(--text-light);">
+            <strong>About the author:</strong> Jorge C. Lucero is a Professor of Computer Science at the University of Brasília with 30+ years researching voice production and vocal fold dynamics. He created SimuVox, a physics-based voice disorder simulator, and developed the Phonalab suite of free voice analysis tools for clinicians worldwide.
+        </p>
+    </div>
+
+<!-- Related Posts -->
+<div class="related-posts">
+    <h3>📚 Related Articles</h3>
+    
+    <div class="related-post-card coming-soon">
+        <a href="#" style="pointer-events: none; opacity: 0.7;">
+            Jitter and Shimmer: What They Really Tell You (And What They Don't)
+        </a>
+        <p>Understanding the limitations of traditional perturbation measures</p>
+        <span class="coming-soon-badge">Coming Soon</span>
+    </div>
+    
+    <div class="related-post-card coming-soon">
+        <a href="#" style="pointer-events: none; opacity: 0.7;">
+            AVQI and ABI: Multiparametric Voice Assessment Explained
+        </a>
+        <p>Why combining multiple acoustic measures provides better assessment</p>
+        <span class="coming-soon-badge">Coming Soon</span>
+    </div>
+    
+    <div class="related-post-card coming-soon">
+        <a href="#" style="pointer-events: none; opacity: 0.7;">
+            Telehealth Voice Assessment: Making Smartphone Recordings Work
+        </a>
+        <p>Practical protocols for remote voice analysis with CPP</p>
+        <span class="coming-soon-badge">Coming Soon</span>
+    </div>
+</div>
+</article>
+
+<!-- Footer -->
+    <footer>
+        <div class="container">
+            <p><strong>Phonalab</strong> - Professional Voice Analysis Tools</p>
+            <p style="margin-top: 10px; font-size: 14px;">
+                © 2025 Jorge C. Lucero • For clinical correlation and professional use only
+            </p>
+        </div>
+    </footer>
+
+<!-- Vercel Analytics -->
+<script defer src="/_vercel/insights/script.js"></script>
+
+    <script>
+        // Dropdown toggle for desktop
+        const toolsDropdown = document.getElementById('toolsDropdown');
+        const dropdownToggle = toolsDropdown.querySelector('.dropdown-toggle');
+        
+        dropdownToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toolsDropdown.classList.toggle('active');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!toolsDropdown.contains(e.target)) {
+                toolsDropdown.classList.remove('active');
+            }
+        });
+        
+        // Mobile menu toggle
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        mobileMenuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            mobileMenuToggle.textContent = mobileMenu.classList.contains('active') ? '✕' : '☰';
+        });
+        
+        // Close mobile menu when clicking a link
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                mobileMenuToggle.textContent = '☰';
+            });
+        });
+    </script>
+</body>
+</html>
