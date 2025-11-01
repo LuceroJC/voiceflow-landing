@@ -1,15 +1,5 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "index.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "blog/**/*.html",
-      "use": "@vercel/static"
-    }
-  ],
   "redirects": [
     {
       "source": "/",
@@ -36,20 +26,6 @@
   ],
   "cleanUrls": true,
   "trailingSlash": false,
-  "routes": [
-    {
-      "src": "/blog/posts/([^/]+)",
-      "dest": "/blog/posts/$1.html"
-    },
-    {
-      "src": "/blog",
-      "dest": "/blog/index.html"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    }
-  ],
   "headers": [
     {
       "source": "/(.*)",
@@ -113,7 +89,7 @@
       ]
     },
     {
-      "source": "/og-image.png",
+      "source": "/og-*.png",
       "headers": [
         {
           "key": "Cache-Control",
@@ -122,61 +98,7 @@
       ]
     },
     {
-      "source": "/og-voice-analyzer.png",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/og-pitch-visualizer.png",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/og-avqi-abi.png",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/twitter-image.png",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/twitter-voice-analyzer.png",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/twitter-pitch-visualizer.png",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/twitter-avqi-abi.png",
+      "source": "/twitter-*.png",
       "headers": [
         {
           "key": "Cache-Control",
@@ -204,24 +126,6 @@
     },
     {
       "source": "/(.*).js",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/og-blog.png",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/twitter-blog.png",
       "headers": [
         {
           "key": "Cache-Control",
