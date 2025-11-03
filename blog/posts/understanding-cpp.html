@@ -781,16 +781,13 @@
             <p>
                 Without getting too technical: CPP measures the prominence of harmonic structure in the voice signal relative to background noise. Think of it as quantifying how "clear" the harmonic peaks are in the voice spectrum.
             </p>
-<div class="key-point">
-    <strong>CPP vs. CPPS Terminology:</strong>
-    <p>Throughout this article, "CPP" refers to cepstral peak prominence generally. However, modern tools like Praat and Phonalab calculate CPPS (smoothed CPP), which averages measurements across multiple time windows for more stable results. CPPS values are typically 3-4 dB higher than unsmoothed CPP (used by ADSV). Always specify which version you're using when reporting values.</p>
+
+
+
+ <div class="key-point">
+    <strong>Conceptual Framework:</strong>
+    Think of the voice spectrum as a city skyline. In a healthy voice, harmonic peaks (the buildings) stand tall and distinct above the noise floor (the horizon). In dysphonia, increased aperiodic energy (fog) obscures these harmonics. CPP quantifies how prominently the harmonic structure rises above this noise floor.
 </div>
-
-
-            <div class="key-point">
-                <strong>Simple Analogy:</strong>
-                Imagine looking at a city skyline. In a healthy voice, the buildings (harmonics) stand tall and distinct above the horizon (noise floor). In a dysphonic voice, fog (noise) obscures the buildings. CPP measures how clearly you can see those buildings above the fog.
-            </div>
 
             <h3>Why CPP Works Better</h3>
 
@@ -837,22 +834,23 @@
 
             <h3>Clinical Cutoffs (Software-Specific)</h3>
 
+<div class="key-point">
+    <strong>CPP vs. CPPS - Critical Distinction:</strong>
+    Modern tools like Praat and Phonalab calculate <strong>CPPS</strong> (smoothed CPP), which averages measurements across multiple time windows for more stable results. CPPS values are typically <strong>3-4 dB higher</strong> than unsmoothed CPP (used by ADSV). The cutoffs below are software-specific; always compare your patient's values to cutoffs from the SAME software.
+</div>
+
 <h4>For Praat/Phonalab (CPP Smoothed):</h4>
 <ul>
     <li><strong>Sustained /a/ vowel:</strong> Values <14.45 dB suggest voice disorder</li>
     <li><strong>Continuous speech (e.g., Rainbow Passage):</strong> Values <9.33 dB suggest voice disorder</li>
 </ul>
 
-<h4>For ADSV (CPP):</h4>
+<h4>For ADSV (CPP Unsmoothed):</h4>
 <ul>
     <li><strong>Sustained /a/ vowel:</strong> Values <11.46 dB suggest voice disorder</li>
     <li><strong>Continuous speech:</strong> Values <6.11 dB suggest voice disorder</li>
 </ul>
 
-<div class="key-point">
-    <strong>Critical Note:</strong>
-    CPPS (smoothed) values are typically 3-4 dB higher than CPP (unsmoothed). Always compare your patient's values to cutoffs from the SAME software. Praat and Phonalab use CPPS; ADSV uses CPP.
-</div>
 
             <h3>What Affects CPP?</h3>
 
